@@ -28,7 +28,7 @@ Meteor.onConnection(function (connection) {
   })
 })
 
-Meteor.setInterval(function () {
+Meteor.isServer && Meteor.setInterval(function () {
   Meteor.server.sessions.forEach(function (session) {
     // session.socket.send(Random.id(), JSON.stringify({ test: 1 }))
     session.socket.send(JSON.stringify({ msg: 'added', id: Random.id(), fields: { text: '这段消息在 console.log看' } }))
