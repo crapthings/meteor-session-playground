@@ -1,3 +1,9 @@
+Meteor.startup(function () {
+  Meteor.connection._stream.eventCallbacks.message.push(function (msg) {
+    console.log('websocket event', msg)
+  })
+})
+
 Meteor.startup(async function () {
   // 客户的 sessionId 最好从后端拿过来, 前段的 _lastSessionId 是个 refrence 值，可能要客户端 ready 后才能知道
   const sessionId = await getSessionId()
@@ -17,7 +23,7 @@ Meteor.startup(async function () {
 
     Test.find().forEach(function (doc) {
       const $item = document.createElement('div')
-      $item.innerText = `${doc.sessionId}`
+      $item.innerText = `${doc.sessionId} ${doc.text}`
       $list.appendChild($item)
     })
 

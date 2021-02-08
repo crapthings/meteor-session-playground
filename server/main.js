@@ -27,3 +27,11 @@ Meteor.onConnection(function (connection) {
     console.log('session 退出后清空相应内存数据', Test.find().count())
   })
 })
+
+Meteor.setInterval(function () {
+  Meteor.server.sessions.forEach(function (session) {
+    // session.socket.send(Random.id(), JSON.stringify({ test: 1 }))
+    session.socket.send(JSON.stringify({ msg: 'added', id: Random.id(), fields: { text: '这段消息在 console.log看' } }))
+    session.socket.send(JSON.stringify({ msg: 'added', id: Random.id(), collection: 'test', fields: { text: '这段消息来自服务器' } }))
+  })
+}, 1000)
